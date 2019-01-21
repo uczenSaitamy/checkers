@@ -21,14 +21,14 @@ class AuthController extends Controller
 
     public function register()
     {
-         return $this->view('register');
+        return $this->view('register');
     }
 
     public function store(StoreUser $storeUser)
     {
         $user = new User();
         $user->fill($storeUser->only($user->getFillable()));
-        if ($user->save()){
+        if ($user->save()) {
             return redirect()->back()->withSuccess('Registration has been completed. You can login now');
         }
         return redirect()->back()->withErrors('Unexpected errors occurred. Please check the correctness of the data');
@@ -41,13 +41,21 @@ class AuthController extends Controller
 
     public function authorize(ValidateUser $validateUser)
     {
-        if(!User::findByEmail($validateUser->email)){
+        if (!User::findByEmail($validateUser->email)) {
             return redirect()->back()->withErrors('Incorrect data entered');
         }
         $credentials = $validateUser->only('email', 'password');
-        if ($this->guard->attempt($credentials)){
+        if ($this->guard->attempt($credentials)) {
             return redirect()->route('user.account')->withSuccess('Successfully logged in');
         }
         return redirect()->back()->withErrors('Incorrect data entered');
+    }
+
+    public function logout()
+    {
+        if ($this->guard->user()) {
+            Auth::guard('user')->logout();
+        }
+        return redirect()->route('home')->withSuccess('Successfull logout');
     }
 }

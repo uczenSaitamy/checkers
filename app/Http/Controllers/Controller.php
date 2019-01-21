@@ -13,6 +13,11 @@ class Controller extends BaseController
 
     protected $prefix = null;
 
+    public function __construct()
+    {
+//
+    }
+
     protected function view($view, $data = [])
     {
         if(isset($this->prefix) && $this->prefix !== null) {

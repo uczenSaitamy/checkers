@@ -3,5 +3,6 @@
 @section('title', 'Account')
 
 @section('content')
-Your account site.
+
+<a href="{{ route('game') }}" class="btn btn-lg btn-dark">Zagraj</a>
 @stop

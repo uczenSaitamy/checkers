@@ -18,6 +18,7 @@ class AccountController extends Controller
 
     public function account()
     {
+//        dd($this->guard->user());
         return $this->view('account');
     }
 }
