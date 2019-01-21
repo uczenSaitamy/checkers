@@ -300,12 +300,12 @@ class Area extends Model
                 if ($this->x[array_search($x, $this->x) - 2] === $movex) {
                     if (array_search($y, $this->y) + 2 < count($this->y) &&
                         $this->y[array_search($y, $this->y) + 2] === $movey) {
-                        if ($toKill = $this->findPawn('d', $movex + 1, $this->y[array_search($y, $this->y) - 1])) {
+                        if ($toKill = $this->findPawn('d', $movex + 1, $this->y[array_search($y, $this->y) + 1])) {
                             return $toKill;
                         } else return false;
                     } else if (array_search($y, $this->y) - 2 < count($this->y) &&
                         $this->y[array_search($y, $this->y) - 2] === $movey) {
-                        if ($toKill = $this->findPawn('d', $movex + 1, $this->y[array_search($y, $this->y) + 1])) {
+                        if ($toKill = $this->findPawn('d', $movex + 1, $this->y[array_search($y, $this->y) - 1])) {
                             return $toKill;
                         } else return false;
                     } else return false;

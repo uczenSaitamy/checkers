@@ -12,6 +12,10 @@
                         <a class="nav-link" href="{{ route('user.logout') }}">Logout <span
                                 class="sr-only"></span></a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('user.account') }}">Account <span
+                                class="sr-only"></span></a>
+                    </li>
                 @else
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('user.register') }}">Register <span

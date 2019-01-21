@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Game\Game;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
@@ -28,4 +29,9 @@ class User extends AbstractUser
     ];
 
     protected $guard = 'user';
+
+    public function games()
+    {
+        return $this->hasMany(Game::class);
+    }
 }

@@ -18,6 +18,7 @@ class CreateGameTable extends Migration
             $table->string('status')->default('running');
             $table->integer('user_id');
             $table->integer('area_id')->nullable();
+            $table->string('round')->default('B');
             $table->timestamps();
         });
     }

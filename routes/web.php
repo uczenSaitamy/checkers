@@ -31,9 +31,10 @@ Route::group(['namespace' => 'User'], function () {
 //        Route::post('move', ['as' => 'move', 'uses' => 'GameController@move']);
 
 
-        Route::get('game', ['as' => 'game', 'uses' => 'GameController@index']);
-        Route::get('game/{game}', ['as' => 'game.game', 'uses' => 'GameController@game']);
+//        Route::get('game', ['as' => 'game', 'uses' => 'GameController@index']);
+        Route::get('gamestart', ['as' => 'game.start', 'uses' => 'GameController@start']);
+        Route::get('game/{game}', ['as' => 'game.game', 'uses' => 'GameController@test']);
         Route::post('game/{game}/move', ['as' => 'game.move', 'uses' => 'GameController@move']);
-        Route::get('game/{game}/test', ['as' => 'game.test', 'uses' => 'GameController@test']);
+//        Route::get('game/{game}/test', ['as' => 'game.test', 'uses' => 'GameController@test']);
     });
 });

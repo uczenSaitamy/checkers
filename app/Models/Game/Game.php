@@ -2,6 +2,7 @@
 
 namespace App\Models\Game;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Game extends Model
@@ -12,5 +13,10 @@ class Game extends Model
     public function area()
     {
         return $this->hasOne(Area::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

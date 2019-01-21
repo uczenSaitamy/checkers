@@ -19,24 +19,12 @@ class GameController extends Controller
         $this->guard = Auth::guard('user');
     }
 
-//    public function index()
-//    {
-//        $game = Game::find(1);
-////        $game = new Game();
-//        $game->user_id = $this->guard->user()->id;
-//        $game->save();
-//
-//        $area = Area::find(1);
-////        $area = new Area();
-//        $area->game_id = $game->id;
-//        $area->save();
-//
-//        $test = $area->startArea();
-////        dd($test);
-//        return $this->view('index', compact('test'));
-//    }
-
     public function index()
+    {
+        dd('test');
+    }
+
+    public function start()
     {
 //        $game = Game::find(1);
         $game = new Game();
@@ -99,33 +87,48 @@ class GameController extends Controller
     {
 //        return response()->json(['id' =>$request->id, 'type' => $request->type, 'move' => $request->move]);
         $area = $game->area;
-//        $x = substr('area[4H]', -3, 1);
-//        $y = substr('area[4H]', -2, 1);
-//        $moveX = substr('area[6F]', -3, 1);
-//        $moveY = substr('area[6F]', -2, 1);
-//        $color = 'B';
-        $x = substr($request->id, -3, 1);
-        $y = substr($request->id, -2, 1);
-        $moveX = substr($request->move, -3, 1);
-        $moveY = substr($request->move, -2, 1);
+//        $x = substr('5A', 0, 1);
+//        $y = substr('5A', 1);
+//        $moveX = substr('3C', 0, 1);
+//        $moveY = substr('3C', 1);
+//        $color = 'C';
+        $x = substr($request->id, 0, 1);
+        $y = substr($request->id, 1);
+        $moveX = substr($request->move, 0, 1);
+        $moveY = substr($request->move, 1);
         $color = $request->type;
+        if ($game->round != $color){
+            return response()->json(['success' => false]);
+        }
         $next = ($color == 'B') ? 'C' : 'B';
+        $game->round = $next;
         if ($pawn = $area->findPawn('d', $x, $y)) {
-            /**
-             * Zwykły ruch
-             */
             if (!$area->findPawn('d', $moveX, $moveY)) {
+                /**
+                 * Zwykły ruch
+                 */
                 if ($area->checkMove(intval($x), $y, intval($moveX), $moveY, $color)) {
                     $pawn->x = $moveX;
                     $pawn->y = $moveY;
                     $pawn->save();
+                    $game->save();
                     return response()->json(['success' => true, 'action' => 'move', 'killId' => false, 'next' => $next]);
                     /**
                      * Ruch zbijania
                      */
-                } else if ($toKill =$area->checkKill(intval($x), $y, intval($moveX), $moveY, $color)) {
-                    return response()->json(['success' => true, 'action' => 'kill', 'killId' => 'area['. $toKill->x .
-                    $toKill->y.']', 'next' => '']);
+                } else if ($toKill = $area->checkKill(intval($x), $y, intval($moveX), $moveY, $color)) {
+                    $killId = $toKill->x . $toKill->y;
+                    $pawn->x = $moveX;
+                    $pawn->y = $moveY;
+                    $pawn->save();
+                    $game->save();
+                    $toKill->delete();
+                    return response()->json([
+                        'success' => true,
+                        'action' => 'kill',
+                        'killId' => $killId,
+                        'next' => $next
+                    ]);
                 }
             }
         }

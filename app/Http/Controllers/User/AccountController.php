@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\Game\Game;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +19,7 @@ class AccountController extends Controller
 
     public function account()
     {
-//        dd($this->guard->user());
-        return $this->view('account');
+        $games = $this->guard->user()->games;
+        return $this->view('account', compact('games'));
     }
 }
