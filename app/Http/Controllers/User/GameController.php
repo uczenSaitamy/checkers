@@ -49,10 +49,10 @@ class GameController extends Controller
 //    public function move(Request $request)
     {
         $area = $game->area;
-//        $x = substr('3C', 0, 1);
-//        $y = substr('3C', 1);
-//        $moveX = substr('1A', 0, 1);
-//        $moveY = substr('1A', 1);
+//        $x = substr('2F', 0, 1);
+//        $y = substr('2F', 1);
+//        $moveX = substr('3G', 0, 1);
+//        $moveY = substr('3G', 1);
 //        $color = 'CD';
         $x = substr($request->id, 0, 1);
         $y = substr($request->id, 1);

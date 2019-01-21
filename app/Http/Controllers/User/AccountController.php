@@ -19,7 +19,9 @@ class AccountController extends Controller
 
     public function account()
     {
-        $games = $this->guard->user()->games;
-        return $this->view('account', compact('games'));
+        $games = $this->guard->user()->games->where('status', '=', 'running');
+        $win = $this->guard->user()->games->where('status', '=', 'win')->count();
+        $lost = $this->guard->user()->games->where('status', '=', 'lost')->count();
+        return $this->view('account', compact(['games', 'win', 'lost']));
     }
 }

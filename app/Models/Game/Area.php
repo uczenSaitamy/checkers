@@ -47,7 +47,9 @@ class Area extends Model
 
     public function countPawns($color)
     {
-        return $this->pawns()->where('color', $color)->count();
+        $normal = $this->pawns()->where('color', $color)->count();
+        $damka = $this->pawns()->where('color', $color . 'D')->count();
+        return $normal + $damka;
     }
 
     public function getWhiteStart()
@@ -304,16 +306,16 @@ class Area extends Model
                         $this->y[array_search($y, $this->y) - 1] === $movey) {
                         return true;
                     } else return false;
-                }
-            } else if (array_search($x, $this->x) + 1 < count($this->x)) {
-                if ($this->x[array_search($x, $this->x) + 1] === $movex) {
-                    if (array_search($y, $this->y) + 1 < count($this->y) &&
-                        $this->y[array_search($y, $this->y) + 1] === $movey) {
-                        return true;
-                    } else if (array_search($y, $this->y) - 1 < count($this->y) &&
-                        $this->y[array_search($y, $this->y) - 1] === $movey) {
-                        return true;
-                    } else return false;
+                } else if (array_search($x, $this->x) + 1 < count($this->x)) {
+                    if ($this->x[array_search($x, $this->x) + 1] === $movex) {
+                        if (array_search($y, $this->y) + 1 < count($this->y) &&
+                            $this->y[array_search($y, $this->y) + 1] === $movey) {
+                            return true;
+                        } else if (array_search($y, $this->y) - 1 < count($this->y) &&
+                            $this->y[array_search($y, $this->y) - 1] === $movey) {
+                            return true;
+                        } else return false;
+                    }
                 }
             }
         }
