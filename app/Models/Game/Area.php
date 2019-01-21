@@ -45,6 +45,11 @@ class Area extends Model
         return $this->pawns->where('x', $x)->where('y', $y)->first();
     }
 
+    public function countPawns($color)
+    {
+        return $this->pawns()->where('color', $color)->count();
+    }
+
     public function getWhiteStart()
     {
         return [
@@ -289,6 +294,28 @@ class Area extends Model
                     } else return false;
                 }
             }
+        } else if ($type == 'BD' || $type == 'CD') {
+            if (array_search($x, $this->x) - 1 < count($this->x) && array_search($x, $this->x) - 1 >= 0) {
+                if ($this->x[array_search($x, $this->x) - 1] === $movex) {
+                    if (array_search($y, $this->y) + 1 < count($this->y) &&
+                        $this->y[array_search($y, $this->y) + 1] === $movey) {
+                        return true;
+                    } else if (array_search($y, $this->y) - 1 < count($this->y) &&
+                        $this->y[array_search($y, $this->y) - 1] === $movey) {
+                        return true;
+                    } else return false;
+                }
+            } else if (array_search($x, $this->x) + 1 < count($this->x)) {
+                if ($this->x[array_search($x, $this->x) + 1] === $movex) {
+                    if (array_search($y, $this->y) + 1 < count($this->y) &&
+                        $this->y[array_search($y, $this->y) + 1] === $movey) {
+                        return true;
+                    } else if (array_search($y, $this->y) - 1 < count($this->y) &&
+                        $this->y[array_search($y, $this->y) - 1] === $movey) {
+                        return true;
+                    } else return false;
+                }
+            }
         }
         return false;
     }
@@ -321,7 +348,37 @@ class Area extends Model
                         } else return false;
                     } else if (array_search($y, $this->y) - 2 < count($this->y) &&
                         $this->y[array_search($y, $this->y) - 2] === $movey) {
-                        if ($toKill = $this->findPawn('d', $movex - 1, $this->y[array_search($y, $this->y) -1])) {
+                        if ($toKill = $this->findPawn('d', $movex - 1, $this->y[array_search($y, $this->y) - 1])) {
+                            return $toKill;
+                        } else return false;
+                    } else return false;
+                }
+            }
+        } else if ($type == 'BD' || $type == 'CD') {
+            if (array_search($x, $this->x) - 2 < count($this->x) && array_search($x, $this->x) - 2 >= 0) {
+                if ($this->x[array_search($x, $this->x) - 2] === $movex) {
+                    if (array_search($y, $this->y) + 2 < count($this->y) &&
+                        $this->y[array_search($y, $this->y) + 2] === $movey) {
+                        if ($toKill = $this->findPawn('d', $movex + 1, $this->y[array_search($y, $this->y) + 1])) {
+                            return $toKill;
+                        } else return false;
+                    } else if (array_search($y, $this->y) - 2 < count($this->y) &&
+                        $this->y[array_search($y, $this->y) - 2] === $movey) {
+                        if ($toKill = $this->findPawn('d', $movex + 1, $this->y[array_search($y, $this->y) - 1])) {
+                            return $toKill;
+                        } else return false;
+                    } else return false;
+                }
+            } else if (array_search($x, $this->x) + 2 < count($this->x)) {
+                if ($this->x[array_search($x, $this->x) + 2] === $movex) {
+                    if (array_search($y, $this->y) + 2 < count($this->y) &&
+                        $this->y[array_search($y, $this->y) + 2] === $movey) {
+                        if ($toKill = $this->findPawn('d', $movex - 1, $this->y[array_search($y, $this->y) + 1])) {
+                            return $toKill;
+                        } else return false;
+                    } else if (array_search($y, $this->y) - 2 < count($this->y) &&
+                        $this->y[array_search($y, $this->y) - 2] === $movey) {
+                        if ($toKill = $this->findPawn('d', $movex - 1, $this->y[array_search($y, $this->y) - 1])) {
                             return $toKill;
                         } else return false;
                     } else return false;
@@ -329,5 +386,14 @@ class Area extends Model
             }
         }
         return false;
+    }
+
+    public function checkDamka($x, $color)
+    {
+        if ($color == 'B') {
+            return ($x == 8) ? true : false;
+        } else if ($color == 'C') {
+            return ($x == 1) ? true : false;
+        } else return false;
     }
 }

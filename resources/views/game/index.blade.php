@@ -29,8 +29,12 @@
         </div>
         <div class="col-md-4">
             <div class="row">
-               <div class="col">Tura gracza:</div>
+                <div class="col">Tura gracza:</div>
                 <div class="col" id="round">{{ $game->round }}</div>
+            </div>
+            <div class="row">
+                <div class="col" id="winnerText"></div>
+                <div class="col" id="winner"></div>
             </div>
         </div>
     </div>
@@ -60,11 +64,11 @@
             $('.movable').on('click', function (event) {
                 event.stopPropagation();
                 event.preventDefault();
-                if ($(event.target).text().trim() === 'B') {
+                if ($(event.target).text().trim() === 'B' || $(event.target).text().trim() === 'BD') {
                     lastBtn = $(event.target).attr('id');
                     type = $(event.target).text().trim();
                     console.log('biale', type, lastBtn);
-                } else if ($(event.target).text().trim() === 'C') {
+                } else if ($(event.target).text().trim() === 'C' || $(event.target).text().trim() === 'CD') {
                     lastBtn = $(event.target).attr('id');
                     type = $(event.target).text().trim();
                     console.log('czarne');
@@ -100,9 +104,18 @@
 
                     if (result.action == 'kill') {
                         $('#' + result.killId + '').text('');
+                    } else if (result.action == 'win') {
+                        $('#' + result.killId + '').text('');
+                        $('#winnerText').text('Winner:');
+                        $('#winner').text(type);
                     }
 
-                    if (result.next){
+                    if (result.color == 'BD' || result.color == 'CD') {
+                        $('#' + move_id + '').text(result.color);
+
+                    }
+
+                    if (result.next) {
                         $('#round').text(result.next);
                     }
                 },
