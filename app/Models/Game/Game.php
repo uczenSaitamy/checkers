@@ -2,8 +2,8 @@
 
 namespace App\Models\Game;
 
+use App\Models\Model;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 
 class Game extends Model
 {

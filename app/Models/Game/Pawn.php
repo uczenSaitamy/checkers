@@ -2,7 +2,7 @@
 
 namespace App\Models\Game;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Model;
 
 class Pawn extends Model
 {

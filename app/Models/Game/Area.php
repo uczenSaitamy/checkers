@@ -2,7 +2,8 @@
 
 namespace App\Models\Game;
 
-use Illuminate\Database\Eloquent\Model;
+
+use App\Models\Model;
 
 class Area extends Model
 {
@@ -40,7 +41,7 @@ class Area extends Model
         return $this->hasMany(Pawn::class);
     }
 
-    public function findPawn($color, $x, $y)
+    public function findPawn($x, $y)
     {
         return $this->pawns->where('x', $x)->where('y', $y)->first();
     }
@@ -56,22 +57,22 @@ class Area extends Model
     {
         return [
             1 => [
-                'A' => ['pawn' => $this->findPawn('B', 1, 'A'), 'field' => true],
-                'C' => ['pawn' => $this->findPawn('B', 1, 'C'), 'field' => true],
-                'E' => ['pawn' => $this->findPawn('B', 1, 'E'), 'field' => true],
-                'G' => ['pawn' => $this->findPawn('B', 1, 'G'), 'field' => true]
+                'A' => ['pawn' => $this->findPawn(1, 'A'), 'field' => true],
+                'C' => ['pawn' => $this->findPawn(1, 'C'), 'field' => true],
+                'E' => ['pawn' => $this->findPawn(1, 'E'), 'field' => true],
+                'G' => ['pawn' => $this->findPawn(1, 'G'), 'field' => true]
             ],
             2 => [
-                'B' => ['pawn' => $this->findPawn('B', 2, 'B'), 'field' => true],
-                'D' => ['pawn' => $this->findPawn('B', 2, 'D'), 'field' => true],
-                'F' => ['pawn' => $this->findPawn('B', 2, 'F'), 'field' => true],
-                'H' => ['pawn' => $this->findPawn('B', 2, 'H'), 'field' => true]
+                'B' => ['pawn' => $this->findPawn(2, 'B'), 'field' => true],
+                'D' => ['pawn' => $this->findPawn(2, 'D'), 'field' => true],
+                'F' => ['pawn' => $this->findPawn(2, 'F'), 'field' => true],
+                'H' => ['pawn' => $this->findPawn(2, 'H'), 'field' => true]
             ],
             3 => [
-                'A' => ['pawn' => $this->findPawn('B', 3, 'A'), 'field' => true],
-                'C' => ['pawn' => $this->findPawn('B', 3, 'C'), 'field' => true],
-                'E' => ['pawn' => $this->findPawn('B', 3, 'E'), 'field' => true],
-                'G' => ['pawn' => $this->findPawn('B', 3, 'G'), 'field' => true]
+                'A' => ['pawn' => $this->findPawn(3, 'A'), 'field' => true],
+                'C' => ['pawn' => $this->findPawn(3, 'C'), 'field' => true],
+                'E' => ['pawn' => $this->findPawn(3, 'E'), 'field' => true],
+                'G' => ['pawn' => $this->findPawn(3, 'G'), 'field' => true]
             ]
         ];
     }
@@ -80,22 +81,22 @@ class Area extends Model
     {
         return [
             8 => [
-                'B' => ['pawn' => $this->findPawn('C', 8, 'B'), 'field' => true],
-                'D' => ['pawn' => $this->findPawn('C', 8, 'D'), 'field' => true],
-                'F' => ['pawn' => $this->findPawn('C', 8, 'F'), 'field' => true],
-                'H' => ['pawn' => $this->findPawn('C', 8, 'H'), 'field' => true],
+                'B' => ['pawn' => $this->findPawn(8, 'B'), 'field' => true],
+                'D' => ['pawn' => $this->findPawn(8, 'D'), 'field' => true],
+                'F' => ['pawn' => $this->findPawn(8, 'F'), 'field' => true],
+                'H' => ['pawn' => $this->findPawn(8, 'H'), 'field' => true],
             ],
             7 => [
-                'A' => ['pawn' => $this->findPawn('C', 7, 'A'), 'field' => true],
-                'C' => ['pawn' => $this->findPawn('C', 7, 'C'), 'field' => true],
-                'E' => ['pawn' => $this->findPawn('C', 7, 'E'), 'field' => true],
-                'G' => ['pawn' => $this->findPawn('C', 7, 'G'), 'field' => true],
+                'A' => ['pawn' => $this->findPawn(7, 'A'), 'field' => true],
+                'C' => ['pawn' => $this->findPawn(7, 'C'), 'field' => true],
+                'E' => ['pawn' => $this->findPawn(7, 'E'), 'field' => true],
+                'G' => ['pawn' => $this->findPawn(7, 'G'), 'field' => true],
             ],
             6 => [
-                'B' => ['pawn' => $this->findPawn('C', 6, 'B'), 'field' => true],
-                'D' => ['pawn' => $this->findPawn('C', 6, 'D'), 'field' => true],
-                'F' => ['pawn' => $this->findPawn('C', 6, 'F'), 'field' => true],
-                'H' => ['pawn' => $this->findPawn('C', 6, 'H'), 'field' => true],
+                'B' => ['pawn' => $this->findPawn(6, 'B'), 'field' => true],
+                'D' => ['pawn' => $this->findPawn(6, 'D'), 'field' => true],
+                'F' => ['pawn' => $this->findPawn(6, 'F'), 'field' => true],
+                'H' => ['pawn' => $this->findPawn(6, 'H'), 'field' => true],
             ],
         ];
     }
@@ -194,7 +195,7 @@ class Area extends Model
         $area = $this->getArea();
         foreach ($this->getX() as $x) {
             foreach ($this->getY() as $y) {
-                if ($pawn = $this->findPawn('d', $x, $y)) {
+                if ($pawn = $this->findPawn($x, $y)) {
                     $area[$x][$y] = ['pawn' => $pawn, 'field' => true];
                 }
             }
@@ -225,7 +226,7 @@ class Area extends Model
 
     public function setPawn($color, $x, $y)
     {
-        if ($pawn = $this->findPawn($color, $x, $y)) {
+        if ($pawn = $this->findPawn($x, $y)) {
 
         } else {
             $pawn = new Pawn();
@@ -329,12 +330,12 @@ class Area extends Model
                 if ($this->x[array_search($x, $this->x) - 2] === $movex) {
                     if (array_search($y, $this->y) + 2 < count($this->y) &&
                         $this->y[array_search($y, $this->y) + 2] === $movey) {
-                        if ($toKill = $this->findPawn('d', $movex + 1, $this->y[array_search($y, $this->y) + 1])) {
+                        if ($toKill = $this->findPawn($movex + 1, $this->y[array_search($y, $this->y) + 1])) {
                             return $toKill;
                         } else return false;
                     } else if (array_search($y, $this->y) - 2 < count($this->y) &&
                         $this->y[array_search($y, $this->y) - 2] === $movey) {
-                        if ($toKill = $this->findPawn('d', $movex + 1, $this->y[array_search($y, $this->y) - 1])) {
+                        if ($toKill = $this->findPawn($movex + 1, $this->y[array_search($y, $this->y) - 1])) {
                             return $toKill;
                         } else return false;
                     } else return false;
@@ -345,12 +346,12 @@ class Area extends Model
                 if ($this->x[array_search($x, $this->x) + 2] === $movex) {
                     if (array_search($y, $this->y) + 2 < count($this->y) &&
                         $this->y[array_search($y, $this->y) + 2] === $movey) {
-                        if ($toKill = $this->findPawn('d', $movex - 1, $this->y[array_search($y, $this->y) + 1])) {
+                        if ($toKill = $this->findPawn($movex - 1, $this->y[array_search($y, $this->y) + 1])) {
                             return $toKill;
                         } else return false;
                     } else if (array_search($y, $this->y) - 2 < count($this->y) &&
                         $this->y[array_search($y, $this->y) - 2] === $movey) {
-                        if ($toKill = $this->findPawn('d', $movex - 1, $this->y[array_search($y, $this->y) - 1])) {
+                        if ($toKill = $this->findPawn($movex - 1, $this->y[array_search($y, $this->y) - 1])) {
                             return $toKill;
                         } else return false;
                     } else return false;
@@ -361,12 +362,12 @@ class Area extends Model
                 if ($this->x[array_search($x, $this->x) - 2] === $movex) {
                     if (array_search($y, $this->y) + 2 < count($this->y) &&
                         $this->y[array_search($y, $this->y) + 2] === $movey) {
-                        if ($toKill = $this->findPawn('d', $movex + 1, $this->y[array_search($y, $this->y) + 1])) {
+                        if ($toKill = $this->findPawn($movex + 1, $this->y[array_search($y, $this->y) + 1])) {
                             return $toKill;
                         } else return false;
                     } else if (array_search($y, $this->y) - 2 < count($this->y) &&
                         $this->y[array_search($y, $this->y) - 2] === $movey) {
-                        if ($toKill = $this->findPawn('d', $movex + 1, $this->y[array_search($y, $this->y) - 1])) {
+                        if ($toKill = $this->findPawn($movex + 1, $this->y[array_search($y, $this->y) - 1])) {
                             return $toKill;
                         } else return false;
                     } else return false;
@@ -375,12 +376,12 @@ class Area extends Model
                 if ($this->x[array_search($x, $this->x) + 2] === $movex) {
                     if (array_search($y, $this->y) + 2 < count($this->y) &&
                         $this->y[array_search($y, $this->y) + 2] === $movey) {
-                        if ($toKill = $this->findPawn('d', $movex - 1, $this->y[array_search($y, $this->y) + 1])) {
+                        if ($toKill = $this->findPawn($movex - 1, $this->y[array_search($y, $this->y) + 1])) {
                             return $toKill;
                         } else return false;
                     } else if (array_search($y, $this->y) - 2 < count($this->y) &&
                         $this->y[array_search($y, $this->y) - 2] === $movey) {
-                        if ($toKill = $this->findPawn('d', $movex - 1, $this->y[array_search($y, $this->y) - 1])) {
+                        if ($toKill = $this->findPawn($movex - 1, $this->y[array_search($y, $this->y) - 1])) {
                             return $toKill;
                         } else return false;
                     } else return false;
@@ -390,12 +391,15 @@ class Area extends Model
         return false;
     }
 
-    public function checkDamka($x, $color)
+    public function checkQueen($x, $color)
     {
-        if ($color == 'B') {
-            return ($x == 8) ? true : false;
-        } else if ($color == 'C') {
-            return ($x == 1) ? true : false;
-        } else return false;
+        switch ($color) {
+            case 'B':
+                return $x == 8;
+            case 'C':
+                return $x == 1;
+            default:
+                return false;
+        }
     }
 }

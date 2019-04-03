@@ -4,7 +4,6 @@ namespace App\Http\Controllers\User;
 
 use App\Models\Game\Area;
 use App\Models\Game\Game;
-use App\Models\Game\Pawn;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +15,7 @@ class GameController extends Controller
 
     public function __construct()
     {
+        parent::__construct();
         $this->guard = Auth::guard('user');
     }
 
@@ -59,14 +59,14 @@ class GameController extends Controller
         $moveX = substr($request->move, 0, 1);
         $moveY = substr($request->move, 1);
         $color = $request->type;
-        if ($game->round == $color || $game->round == substr($color,0,1)){
+        if ($game->round == $color || $game->round == substr($color, 0, 1)) {
         } else {
-            return response()->json(['success' => false, 'test' => substr($color,0,1)]);
+            return response()->json(['success' => false, 'test' => substr($color, 0, 1)]);
         }
         $next = ($color == 'B' || $color == 'BD') ? 'C' : 'B';
         $game->round = $next;
-        if ($pawn = $area->findPawn('d', $x, $y)) {
-            if (!$area->findPawn('d', $moveX, $moveY)) {
+        if ($pawn = $area->findPawn($x, $y)) {
+            if (!$area->findPawn($moveX, $moveY)) {
                 /**
                  * Zwykły ruch
                  */
@@ -76,8 +76,8 @@ class GameController extends Controller
                     $pawn->save();
                     $game->save();
 
-                    if ($area->checkDamka($pawn->x, $pawn->color)){
-                        $pawn->color = $pawn->color.'D';
+                    if ($area->checkQueen($pawn->x, $pawn->color)) {
+                        $pawn->color = $pawn->color . 'D';
                         $pawn->save();
                     }
                     return response()->json([
@@ -97,11 +97,11 @@ class GameController extends Controller
                     $pawn->save();
                     $game->save();
                     $toKill->delete();
-                    if ($area->checkDamka($pawn->x, $pawn->color)){
-                        $pawn->color = $pawn->color.'D';
+                    if ($area->checkQueen($pawn->x, $pawn->color)) {
+                        $pawn->color = $pawn->color . 'D';
                         $pawn->save();
                     }
-                    if ($area->countPawns($next) == 0){
+                    if ($area->countPawns($next) == 0) {
                         $game->status = ($next == 'B') ? 'lost' : 'win';
                         $game->save();
                         return response()->json([
@@ -128,7 +128,8 @@ class GameController extends Controller
     public function test(Game $game)
     {
         $area = $game->area;
-        $test = $game->area->finalArea();
-        return $this->view('index', compact(['test', 'game']));
+        $test = $area->finalArea();
+
+        return $this->view('index', compact('test', 'game'));
     }
 }
